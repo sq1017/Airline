@@ -65,12 +65,12 @@ print(train_data_copy.isna().sum())
 
 
 # 지연되지 않은 항공편 정보만 추출
-train_not_delayed = train_data_copy.loc[train_data_copy['Delay_Not_Delayed']==1,['index', 'ID', 'Month', 'Day_of_Month', 'Estimated_Departure_Time',
-       'Estimated_Arrival_Time', 'Cancelled', 'Diverted', 'Origin_Airport',
-       'Origin_Airport_ID', 'Origin_State', 'Destination_Airport',
-       'Destination_Airport_ID', 'Destination_State', 'Distance', 'Airline',
-       'Carrier_Code(IATA)', 'Carrier_ID(DOT)', 'Tail_Number', 'Delay_Delayed',
-       'Delay_Not_Delayed']]
+# train_not_delayed = train_data_copy.loc[train_data_copy['Delay_Not_Delayed']==1,['index', 'ID', 'Month', 'Day_of_Month', 'Estimated_Departure_Time',
+#        'Estimated_Arrival_Time', 'Cancelled', 'Diverted', 'Origin_Airport',
+#        'Origin_Airport_ID', 'Origin_State', 'Destination_Airport',
+#        'Destination_Airport_ID', 'Destination_State', 'Distance', 'Airline',
+#        'Carrier_Code(IATA)', 'Carrier_ID(DOT)', 'Tail_Number', 'Delay_Delayed',
+#        'Delay_Not_Delayed']]
 
 
 # print(train_not_delayed.isna().sum())
