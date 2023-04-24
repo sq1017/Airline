@@ -2,11 +2,11 @@ from tqdm import tqdm
 import pandas as pd
 import matplotlib.pyplot as plot
 from datetime import datetime
-
-PATH = '/home/park/workspace_github/github_practice/modified.csv'
+PATH = 'd:/workspace/Airline/github_practice/state_modified.csv'
 
 train_data_copy = pd.read_csv(PATH)
 
+print(train_data_copy.head())
 def format_number(num):
     if pd.isna(num):
         return None
@@ -19,21 +19,22 @@ def format_number(num):
 def format_time(string):
     if pd.isna(string):
         return None
-    elif len(string) < 5:
+    # elif len(string) < 5:
+    else:
         time = string[:2]+':'+string[2:]
         return time
-def replace_none_with_depart_med(group):
-    group_mod = group['Estimated_Departure_Time'].median()
-    group['Estimated_Departure_Time'].fillna(group_mod, inplace=True)
+def replace_none_with_depart_mode(group):
+    group_med = group['Estimated_Departure_Time'].mode()
+    group['Estimated_Departure_Time'].fillna(group_med, inplace=True)
     return group
 
-def replace_none_with_arrival_med(group):
-    group_mod = group['Estimated_Arrival_Time'].median()
-    group['Estimated_Arrival_Time'].fillna(group_mod, inplace=True)
+def replace_none_with_arrival_mode(group):
+    group_med = group['Estimated_Arrival_Time'].mode()
+    group['Estimated_Arrival_Time'].fillna(group_med, inplace=True)
     return group
 
-train_data_copy = train_data_copy.groupby(['Month','Distance']).apply(replace_none_with_depart_med).reset_index(drop=True)
-train_data_copy = train_data_copy.groupby(['Month','Distance']).apply(replace_none_with_arrival_med).reset_index(drop=True)  
+train_data_copy = train_data_copy.groupby(['Month','Origin_Airport','Destination_Airport','Distance', 'Airline','Tail_Number']).apply(replace_none_with_depart_mode).reset_index(drop=True)
+train_data_copy = train_data_copy.groupby(['Month','Origin_Airport','Destination_Airport','Distance', 'Airline','Tail_Number']).apply(replace_none_with_arrival_mode).reset_index(drop=True)  
     
 
     
@@ -60,10 +61,9 @@ train_not_delayed.reset_index(drop=False,inplace=True)
 train_not_delayed.drop(columns='level_0',inplace=True)
 
 
-train_data_copy.drop(columns='level_0',inplace=True)
+# train_data_copy['Estimated_Departure_Time']=pd.to_datetime(train_data_copy['Estimated_Departure_Time'],format='%H:%M').dt.time
+# train_data_copy['Estimated_Arrival_Time']=pd.to_datetime(train_data_copy['Estimated_Arrival_Time'],format='%H:%M').dt.time
 
-train_data_copy['Estimated_Departure_Time']=pd.to_datetime(train_data_copy['Estimated_Departure_Time'],format='%H:%M').dt.time
-train_data_copy['Estimated_Arrival_Time']=pd.to_datetime(train_data_copy['Estimated_Arrival_Time'],format='%H:%M').dt.time
 
 
 
@@ -101,7 +101,6 @@ print(type(train_data_copy['Estimated_Arrival_Time'][1]))
 # print(test['Estimated_Arrival_Time'][test[test['Estimated_Arrival_Time']].index])
 # train_not_delayed['Estimated_Arrival_Time'][train_not_delayed[]]
 
-
-
+train_data_copy.to_csv('preprocessed.csv',index=False)
 
 # print(train_not_delayed.duplicated(subset=['Estimated_Departure_Time','Distance','Origin_Airport','Destination_Airport']).sum())
