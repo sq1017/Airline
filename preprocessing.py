@@ -209,6 +209,7 @@ def fill_elapsed(group):
     group['Elapsed_Time'].fillna(elapsed_mean,inplace=True)
     return group
 
+<<<<<<< HEAD
 data_copy = data_copy.groupby(['Month','Origin_Airport','Destination_Airport','Distance', 'Airline','Tail_Number']).apply(fill_elapsed).reset_index(drop=True)
 
 data_copy = data_copy.groupby(['Month','Origin_Airport','Destination_Airport','Distance', 'Airline']).apply(fill_elapsed).reset_index(drop=True)
@@ -217,6 +218,8 @@ data_copy = data_copy.groupby(['Month','Origin_Airport','Destination_Airport','D
 
 data_copy = data_copy.groupby(['Origin_Airport','Destination_Airport','Distance','Airline']).apply(fill_elapsed).reset_index(drop=True)
 
+=======
+>>>>>>> 680e14cbf4c6e81fdb0a265994c0f1782c9a3fee
 data_copy = data_copy.groupby(['Origin_Airport','Destination_Airport','Airline']).apply(fill_elapsed).reset_index(drop=True)
 
 data_copy = data_copy.groupby(['Origin_Airport','Destination_Airport','Distance']).apply(fill_elapsed).reset_index(drop=True)
@@ -224,7 +227,15 @@ data_copy = data_copy.groupby(['Origin_Airport','Destination_Airport','Distance'
 
 data_copy['Estimated_Arrival_Datetime'] = data_copy.apply(lambda row: row['Estimated_Departure_Datetime'] + row['Elapsed_Time'] if (not pd.isna(row['Estimated_Departure_Datetime'])) and (not pd.isna(row['Elapsed_Time'])) else row['Estimated_Arrival_Datetime'],axis = 1)
 
+<<<<<<< HEAD
 data_copy['Estimated_Departure_Datetime'] = data_copy.apply(lambda row: row['Estimated_Arrival_Datetime'] - row['Elapsed_Time'] if (not pd.isna(row['Estimated_Arrival_Datetime'])) and (not pd.isna(row['Elapsed_Time'])) else row['Estimated_Departure_Datetime'],axis = 1)
+=======
+data_copy['Estimated_Departure_Datetime'] = data_copy.apply(lambda row : row['Estimated_Arrival_Datetime'] - row['Elapsed_Time'] if (not pd.isna(row['Estimated_Arrival_Datetime'])) and (not pd.isna(row['Elapsed_Time'])) else row['Estimated_Departure_Datetime'],axis = 1)
+
+data_copy['Estimated_Arrival_Datetime'] = data_copy.apply(lambda row: row['Estimated_Departure_Datetime'] + row['Elapsed_Time'] if (not pd.isna(row['Estimated_Departure_Datetime'])) and (not pd.isna(row['Elapsed_Time'])) else row['Estimated_Arrival_Datetime'],axis = 1)
+
+data_copy['Estimated_Departure_Datetime'] = data_copy.apply(lambda row : row['Estimated_Arrival_Datetime'] - row['Elapsed_Time'] if (not pd.isna(row['Estimated_Arrival_Datetime'])) and (not pd.isna(row['Elapsed_Time'])) else row['Estimated_Departure_Datetime'],axis = 1)
+>>>>>>> 680e14cbf4c6e81fdb0a265994c0f1782c9a3fee
 
 data_copy['Estimated_Arrival_Datetime'] = data_copy.apply(lambda row: row['Estimated_Departure_Datetime'] + row['Elapsed_Time'] if (not pd.isna(row['Estimated_Departure_Datetime'])) and (not pd.isna(row['Elapsed_Time'])) else row['Estimated_Arrival_Datetime'],axis = 1)
 
@@ -240,6 +251,7 @@ data_copy['Estimated_Departure_Time'] = data_copy.apply(lambda row: datetime.tim
 
 
 
+<<<<<<< HEAD
 
 
 def airline_fillna(col1, col2):
@@ -281,3 +293,8 @@ data_copy.drop(['ID', 'Origin_State', 'Destination_State'], axis=1, inplace=True
 data_copy.to_csv('preproecessed.csv')
 
 
+=======
+print(data_copy.isna().sum())
+
+data_copy.to_csv('/home/park/workspace_github/github_practice/time_end.csv')
+>>>>>>> 680e14cbf4c6e81fdb0a265994c0f1782c9a3fee
