@@ -1,0 +1,5 @@
+test
+<<<<<<< HEAD
+change
+=======
+>>>>>>> master
