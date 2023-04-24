@@ -6,7 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-PATH = '/home/park/다운로드/titanic/train.csv'
+PATH = '/Users/jungaeva/Documents/EDA자료/타이타닉/train.csv'
 data = pd.read_csv(PATH)
 
 data.drop(columns=['Cabin','Name','Ticket'],inplace=True)
