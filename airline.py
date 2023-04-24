@@ -1,7 +1,12 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
-data = pd.read_csv('C:\\Users\\Playdata\\Desktop\\open\\train.csv')
+
+# 항공사 코드 결측치 처리
+
+
+# data = pd.read_csv('./open/train.csv')
+data=pd.read_csv('./2.csv')
 
 # Delay 결측치 행 삭제 후 인코딩
 data = data.dropna(subset=['Delay'], axis=0).reset_index(drop=True)
@@ -75,4 +80,6 @@ data.drop(['Airline', 'Carrier_Code(IATA)'], axis=1, inplace=True)
 data.drop(['Cancelled', 'Diverted', 'Origin_Airport', 'Destination_Airport', 'Delay_Not_Delayed'], axis=1, inplace=True)
 data.drop(['ID', 'Origin_State', 'Destination_State'], axis=1, inplace=True)
 
+# data.to_csv('airline_code_complete.csv')
+data.to_csv('3.csv')
 
