@@ -1,7 +1,7 @@
 import pandas as pd
 from datetime import datetime
 
-data = pd.read_csv('d:/workspace/Airline/github_practice/date_time_column_added.csv')
+data = pd.read_csv('./github_practice/date_time_column_added.csv')
 
 data.drop(columns='Unnamed: 0.1',inplace=True)
 data.drop(columns='Unnamed: 0',inplace=True)
@@ -32,4 +32,4 @@ data_copy['Estimated_Arrival_Time'] = data_copy.apply(lambda row: datetime.time(
 # data_copy['Estimated_Departure_Time'] = data_copy.apply(lambda row: datetime.time(row['Estimated_Departure_Datetime']) if (not pd.isna(row['Estimated_Departure_Datetime'])) else row['Estimated_Departure_Time'],axis=1)
 
 
-data_copy.to_csv('d:/workspace/Airline/github_practice/final_time_modified.csv')
+data_copy.to_csv('./github_practice/final_time_modified.csv')

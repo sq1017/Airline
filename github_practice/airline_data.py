@@ -4,7 +4,7 @@ import matplotlib.pyplot as plot
 import os
 
 
-PATH = '/home/park/workspace_github/open/'
+PATH = '../open/'
 PATH_TRAIN = os.path.join(PATH,'train.csv')
 
 train_data = pd.read_csv(PATH_TRAIN)
