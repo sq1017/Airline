@@ -1,20 +1,20 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
-
-# 항공사 코드 결측치 처리
-
-
 # data = pd.read_csv('./open/train.csv')
-data=pd.read_csv('./2.csv')
+data=pd.read_csv('C:\\Users\\Playdata\\Desktop\\playdata\\project\\ML_project\\open\\test.csv')
 
 # Delay 결측치 행 삭제 후 인코딩
-data = data.dropna(subset=['Delay'], axis=0).reset_index(drop=True)
-data = pd.get_dummies(data,columns=['Delay'])
+# data = data.dropna(subset=['Delay'], axis=0).reset_index(drop=True)
+# data = pd.get_dummies(data,columns=['Delay'])
+
+# 시간 결측치 처리
+data['Estimated_Departure_Time'].fillna(data['Estimated_Departure_Time'].mode()[0], inplace=True)
+data['Estimated_Arrival_Time'].fillna(data['Estimated_Arrival_Time'].mode()[0], inplace=True)
 
 # bool형인 종속변수는 int형으로
-data['Delay_Delayed'] = data['Delay_Delayed'].astype(int)
-data['Delay_Not_Delayed'] = data['Delay_Not_Delayed'].astype(int)
+# data['Delay_Delayed'] = data['Delay_Delayed'].astype(int)
+# data['Delay_Not_Delayed'] = data['Delay_Not_Delayed'].astype(int)
 
 # state 결측치 제거
 class Autofill():
@@ -64,7 +64,9 @@ for i in ['WN', 'NK', 'B6', 'F9', 'G4', 'VX']:
     data.loc[data['Carrier_Code(IATA)']==i, 'Carrier_ID(DOT)'] = data[data['Carrier_Code(IATA)']==i]['Carrier_ID(DOT)'].fillna(id)
 
 # carrier_id 결측치(2,185행) 삭제
-data = data.dropna(subset=['Carrier_ID(DOT)'], axis=0).reset_index(drop=True)
+# data = data.dropna(subset=['Carrier_ID(DOT)'], axis=0).reset_index(drop=True)
+data['Carrier_ID(DOT)'].fillna(data['Carrier_ID(DOT)'].mode()[0], inplace=True)
+
 
 # origin_state / destination_state / tail_number 인코딩
 le = LabelEncoder()
@@ -77,9 +79,10 @@ data = pd.concat([data, data_le], axis=1)
 
 # 필요 없는 컬럼 삭제
 data.drop(['Airline', 'Carrier_Code(IATA)'], axis=1, inplace=True)
-data.drop(['Cancelled', 'Diverted', 'Origin_Airport', 'Destination_Airport', 'Delay_Not_Delayed'], axis=1, inplace=True)
-data.drop(['ID', 'Origin_State', 'Destination_State'], axis=1, inplace=True)
+data.drop(['Origin_Airport', 'Destination_Airport'], axis=1, inplace=True)
+data.drop(['ID', 'Origin_State', 'Destination_State', 'Tail_Number'], axis=1, inplace=True)
 
 # data.to_csv('airline_code_complete.csv')
-data.to_csv('3.csv')
+data.to_csv('test2.csv')
 
+# 'Delay_Not_Delayed', 'Cancelled', 'Diverted', 
