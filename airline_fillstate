@@ -1,0 +1,41 @@
+from tqdm import tqdm
+import pandas as pd
+import matplotlib.pyplot as plot
+import os
+
+
+PATH = '/home/park/open/'
+PATH_TRAIN = os.path.join(PATH,'train.csv')
+
+data = pd.read_csv(PATH_TRAIN)
+
+data_copy = data.copy()
+print(data_copy.isna().sum())
+# data_copy.dropna(subset=['Delay'],inplace=True) # Delay 컬럼의 결측치가 포함된 행 전부 제거
+data_copy=data_copy.iloc[data_copy['Delay'].isna().index] # Delay 컬럼의 레이블이 있는 행만 삭제
+data_copy.reset_index(drop=False,inplace=True) # 제거된 열로 인해 번호가 안맞는 index 재설정
+
+# print(data_copy.isna().sum())
+# data_copy = pd.get_dummies(data_copy,columns=['Delay'])
+# # bool형인 종속변수는 int형으로
+# data_copy['Delay_Delayed'] = data_copy['Delay_Delayed'].astype(int)
+# data_copy['Delay_Not_Delayed'] = data_copy['Delay_Not_Delayed'].astype(int)
+
+
+def fill_origin_state(group):
+    group_sort = group[group['Origin_State'].notna().sort_values(ascending=False)]['Origin_State']
+    group_sort.reset_index(drop=True,inplace=True)
+    group['Origin_State'].fillna(group_sort[0],inplace=True)
+    return group
+def fill_destination_state(group):
+    group_sort = group[group['Destination_State'].notna().sort_values(ascending=False)]['Destination_State']
+    group_sort.reset_index(drop=True,inplace=True)
+    group['Destination_State'].fillna(group_sort[0],inplace=True)
+    return group
+
+data_copy = data_copy.groupby(['Origin_Airport']).apply(fill_origin_state).reset_index(drop=True)
+data_copy = data_copy.groupby(['Destination_Airport']).apply(fill_destination_state).reset_index(drop=True)
+
+print(data_copy.isna().sum())
+print(data_copy.shape)
+# data_copy.to_csv('state_modified.csv')
